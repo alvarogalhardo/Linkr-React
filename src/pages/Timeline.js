@@ -19,6 +19,7 @@ export default function Timeline() {
   const [render, setRender] = useState(true)
   const { token } = useContext(UserContext);
   const navigate = useNavigate();
+  
   const config = {
     headers: {
       Authorization: `Bearer ${token}`

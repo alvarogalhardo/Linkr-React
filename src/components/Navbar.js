@@ -10,11 +10,17 @@ import ROUTES from "../constants.js";
 import UserContext from "../contexts/userContext.js";
 
 export default function Navbar() {
-  const { user, setUser, setToken } = useContext(UserContext);
+  const { user, setUser, token, setToken } = useContext(UserContext);
   const [showLogout, setshowLogout] = useState(false);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const navigate = useNavigate();
+  console.log(searchResult);
+  const config = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
 
   useEffect(() => {
     if (search.length < 3) {
@@ -25,7 +31,11 @@ export default function Navbar() {
   }, [search]);
 
   async function searchUser() {
-    const { data } = await axios.post(`${ROUTES.URL}/search`, { search });
+    const { data } = await axios.post(
+      `${ROUTES.URL}/search`,
+      { search },
+      config
+    );
     setSearchResult(data);
   }
 
@@ -68,19 +78,20 @@ export default function Navbar() {
         />
         <ul>
           {searchResult.length != 0
-            ? searchResult.map(({ id, picture, username }) => {
-              return (
-                <SearchResult onClick={() => goToProfile(id)} key={id}>
-                  <img src={picture} alt="User" />
-                  {username}
-                </SearchResult>
-              );
-            })
+            ? searchResult.map(({ id, picture, username, follows }) => {
+                return (
+                  <SearchResult onClick={() => goToProfile(id)} key={id}>
+                    <img src={picture} alt="User" />
+                    {username}
+                    {follows? <p>• following</p> : null}
+                  </SearchResult>
+                );
+              })
             : null}
         </ul>
       </SearchArea>
 
-      {user ?
+      {user ? (
         <Profile
           title={showLogout ? "Close options" : "Show options"}
           onClick={() => setshowLogout(!showLogout)}
@@ -94,9 +105,10 @@ export default function Navbar() {
           ) : (
             <></>
           )}
-        </Profile> :
+        </Profile>
+      ) : (
         <Profile></Profile>
-      }
+      )}
 
       {showLogout ? (
         <Close
@@ -107,7 +119,7 @@ export default function Navbar() {
         <></>
       )}
     </Container>
-  )
+  );
 }
 
 const Container = styled.nav`
@@ -152,7 +164,7 @@ const InputArea = styled.input`
   }
   &:focus {
     outline: none;
-    border-radius: 8px 8px 0 0 ;
+    border-radius: 8px 8px 0 0;
   }
 `;
 
@@ -171,13 +183,13 @@ const SearchArea = styled.div`
       border-radius: 0 0 8px 8px;
     }
   }
-   @media (max-width:610px) {
+  @media (max-width: 610px) {
     position: absolute;
-    top: 85px; 
+    top: 85px;
     width: 95%;
     left: auto;
     right: auto;
-  } 
+  }
 `;
 
 const SearchResult = styled.li`
@@ -198,6 +210,11 @@ const SearchResult = styled.li`
     width: 40px;
     height: 40px;
     margin-right: 10px;
+  }
+  p {
+    color: #c5c5c5;
+    font-size: 19px;
+    margin-left: 5px;
   }
 `;
 
