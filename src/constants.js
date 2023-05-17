@@ -1,11 +1,11 @@
-const POSTS_ROUTE = "https://linkr-api-irly.onrender.com/posts";
-const SIGN_IN_ROUTE = "https://linkr-api-irly.onrender.com/";
-const SIGN_UP_ROUTE = "https://linkr-api-irly.onrender.com/signup";
-const TIMELINE_ROUTE = "https://linkr-api-irly.onrender.com/timeline";
-const HASTAGS_ROUTE = "https://linkr-api-irly.onrender.com/hashtag";
-const URL = "https://linkr-api-irly.onrender.com";
-const POST_DELETE_ROUTE = "https://linkr-api-irly.onrender.com/deletepost";
-const COMMENTS = "https://linkr-api-irly.onrender.com/comments";
+const POSTS_ROUTE = process.env.REACT_APP_API_BASE_URL + '/posts';
+const SIGN_IN_ROUTE = process.env.REACT_APP_API_BASE_URL;
+const SIGN_UP_ROUTE = process.env.REACT_APP_API_BASE_URL + '/signup';
+const TIMELINE_ROUTE = process.env.REACT_APP_API_BASE_URL + '/timeline';
+const HASTAGS_ROUTE = process.env.REACT_APP_API_BASE_URL + '/hashtag';
+const POST_DELETE_ROUTE = process.env.REACT_APP_API_BASE_URL + '/deletepost';
+const URL = process.env.REACT_APP_API_BASE_URL;
+const COMMENTS = process.env.REACT_APP_API_BASE_URL + '/comments';
 
 const ROUTES = {
   SIGN_UP_ROUTE,
